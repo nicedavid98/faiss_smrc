@@ -15,7 +15,11 @@ from faiss.contrib import datasets as faiss_datasets
 
 print("path:", faiss_datasets.__file__)
 
-faiss_datasets.dataset_basedir = '/checkpoint/matthijs/simsearch/'
+# faiss_datasets.dataset_basedir = '/checkpoint/matthijs/simsearch/'
+
+# SIFT1B 데이터셋이 위치할 디렉토리
+faiss_datasets.dataset_basedir = '/home/smrc/faiss_dataset'
+
 
 def sanitize(x):
     return np.ascontiguousarray(x, dtype='float32')
