@@ -24,7 +24,7 @@ print("load data")
 # xb, xq, xt, gt = load_sift1M()
 
 ds = DatasetBigANN()
-ds.basedir = '/home/smrc/nicedavid98/faiss_dataset/bigann/'
+ds.basedir = '/home/nicedavid98/faiss_dataset/bigann/'
 
 xq = ds.get_queries()
 gt = ds.get_groundtruth()

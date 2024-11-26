@@ -18,7 +18,7 @@ print("path:", faiss_datasets.__file__)
 # faiss_datasets.dataset_basedir = '/checkpoint/matthijs/simsearch/'
 
 # SIFT1B 데이터셋이 위치할 디렉토리
-faiss_datasets.dataset_basedir = '/home/smrc/nicedavid98/faiss_dataset'
+faiss_datasets.dataset_basedir = '/home/nicedavid98/faiss_dataset'
 
 
 def sanitize(x):
