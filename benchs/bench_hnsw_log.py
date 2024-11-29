@@ -267,27 +267,17 @@ if 'search' in todo:
     set_demotion_enabled(demotion_config)
     logging.info(f"Successfully set demotion_enabled to {demotion_config}.")
 
-
     logging.info(f"Searching : Load HNSW Index file")
     index = faiss.read_index("hnsw_index")
 
-
-    logging.info(f"Searching : Warm up")
-    for efSearch in 16, 32, 64, 128, 256:
-        for bounded_queue in [True, False]:
-            print("efSearch", efSearch, "bounded queue", bounded_queue, end=' ')
-            index.hnsw.search_bounded_queue = bounded_queue
-            index.hnsw.efSearch = efSearch
-            evaluate(index)
-
-    logging.info(f"Searching : Searching start")
-    for efSearch in 16, 32, 64, 128, 256:
-        for bounded_queue in [True, False]:
-            print("efSearch", efSearch, "bounded queue", bounded_queue, end=' ')
-            index.hnsw.search_bounded_queue = bounded_queue
-            index.hnsw.efSearch = efSearch
-            evaluate(index)
-
+    for phase in range(10):
+        logging.info(f"Searching Phase {phase}")
+        for efSearch in 16, 32, 64, 128, 256:
+            for bounded_queue in [True, False]:
+                print("efSearch", efSearch, "bounded queue", bounded_queue, end=' ')
+                index.hnsw.search_bounded_queue = bounded_queue
+                index.hnsw.efSearch = efSearch
+                evaluate(index)
 
     # Node1 원상 복구 : 실험 종료에 의함.
     # enable_cores_on_node(1)
