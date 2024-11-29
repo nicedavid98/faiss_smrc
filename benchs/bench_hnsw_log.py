@@ -238,6 +238,14 @@ if 'save' in todo:
 
     faiss.write_index(index, "hnsw_index")
 
+# HNSW Index 구조 파악을 위한 옵션 추가
+if 'print_level' in todo:
+    index = faiss.read_index("hnsw_index")
+    print("index.hnsw.max_level: ", index.hnsw.max_level)
+
+    levels = faiss.vector_to_array(index.hnsw.levels)
+    print("np.bincount(levels): ", np.bincount(levels))
+
 
 if 'search' in todo:
     print("Testing HNSW Flat")
