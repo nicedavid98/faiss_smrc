@@ -724,9 +724,9 @@ def main():
         logger_thread.start()
 
         # 하나의 소켓만 사용하기 위해 Node 1의 core 비활성화
-        logging.info(f"Searching : disable cores on node 1")
-        disable_cores_on_node(1)
-        logging.info(f"Searching : disabled cores on node 1")
+        # logging.info(f"Searching : disable cores on node 1")
+        # disable_cores_on_node(1)
+        # logging.info(f"Searching : disabled cores on node 1")
 
         # numa_balancing 옵션 설정
         config_num = 2
@@ -775,7 +775,7 @@ def main():
         print(f"Searching completed in {time.time() - start_time:.2f} seconds")
 
         # Node1 원상 복구 : 실험 종료에 의함.
-        enable_cores_on_node(1)
+        # enable_cores_on_node(1)
 
         # vmstat 로그 기록 스레드 종료
         stop_event.set()
