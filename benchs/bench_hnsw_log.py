@@ -24,6 +24,19 @@ import threading
 import subprocess
 import os
 
+# 시작 시점 저장
+start_time = time.time()
+
+
+def print_time(message):
+    """
+    Prints a message with the time elapsed since the script started.
+
+    Args:
+        message (str): The message to print.
+    """
+    print(f"[{time.time() - start_time:.2f}s] {message}")
+
 
 def setup_logging():
     log_filename = get_unique_log_filename('benchmark.log')
@@ -194,7 +207,7 @@ def set_demotion_enabled(config_num):
 k = int(sys.argv[1])
 todo = sys.argv[2:]
 
-print("load data")
+print_time("load data")
 
 # xb, xq, xt, gt = load_sift1M()
 
@@ -248,7 +261,7 @@ if 'print_level' in todo:
 
 
 if 'search' in todo:
-    print("Testing HNSW Flat")
+    print_time("Testing HNSW Flat")
 
     # logging 세팅
     setup_logging()
@@ -263,29 +276,26 @@ if 'search' in todo:
     # disable_cores_on_node(1)
     # logging.info(f"Searching : disabled cores on node 1")
 
-    logging.info(f"Searching : Load HNSW Index file")
+    print_time(f"Searching : Load HNSW Index file")
     index = faiss.read_index("hnsw_index")
 
-    print("Successfully load HNSW Index")
+    print_time("Successfully load HNSW Index")
     time.sleep(30)
 
     # numa_balancing 옵션 설정
     autonuma_config = 2
-    logging.info(f"Setting NUMA balancing to {autonuma_config}.")
     set_numa_balancing(autonuma_config)
-    logging.info(f"Successfully set NUMA balancing to {autonuma_config}.")
+    print_time(f"Successfully set NUMA balancing to {autonuma_config}.")
 
     # demotion_enabled 옵션 설정
     demotion_config = 1
-    logging.info(f"Setting demotion_enabled to {demotion_config}.")
     set_demotion_enabled(demotion_config)
-    logging.info(f"Successfully set demotion_enabled to {demotion_config}.")
+    print_time(f"Successfully set demotion_enabled to {demotion_config}.")
 
     time.sleep(30)
 
     for phase in range(20):
-        logging.info(f"Searching Phase {phase}")
-        print(f"Searching Phase {phase}")
+        print_time(f"Searching Phase {phase}")
         for efSearch in 16, 32, 64, 128, 256:
             for bounded_queue in [True, False]:
                 print("efSearch", efSearch, "bounded queue", bounded_queue, end=' ')
