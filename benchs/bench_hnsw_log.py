@@ -263,6 +263,12 @@ if 'search' in todo:
     # disable_cores_on_node(1)
     # logging.info(f"Searching : disabled cores on node 1")
 
+    logging.info(f"Searching : Load HNSW Index file")
+    index = faiss.read_index("hnsw_index")
+
+    print("Successfully load HNSW Index")
+    time.sleep(30)
+
     # numa_balancing 옵션 설정
     autonuma_config = 2
     logging.info(f"Setting NUMA balancing to {autonuma_config}.")
@@ -275,11 +281,11 @@ if 'search' in todo:
     set_demotion_enabled(demotion_config)
     logging.info(f"Successfully set demotion_enabled to {demotion_config}.")
 
-    logging.info(f"Searching : Load HNSW Index file")
-    index = faiss.read_index("hnsw_index")
+    time.sleep(30)
 
-    for phase in range(10):
+    for phase in range(20):
         logging.info(f"Searching Phase {phase}")
+        print(f"Searching Phase {phase}")
         for efSearch in 16, 32, 64, 128, 256:
             for bounded_queue in [True, False]:
                 print("efSearch", efSearch, "bounded queue", bounded_queue, end=' ')
