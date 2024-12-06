@@ -263,6 +263,17 @@ if 'print_level' in todo:
 if 'search' in todo:
     print_time("Testing HNSW Flat")
 
+    # numa_balancing 옵션 설정
+    autonuma_config = 0
+    set_numa_balancing(autonuma_config)
+    print_time(f"Successfully set NUMA balancing to {autonuma_config}.")
+
+    # demotion_enabled 옵션 설정
+    demotion_config = 0
+    set_demotion_enabled(demotion_config)
+    print_time(f"Successfully set demotion_enabled to {demotion_config}.")
+
+
     # logging 세팅
     setup_logging()
 
