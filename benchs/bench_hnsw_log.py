@@ -199,6 +199,16 @@ def set_demotion_enabled(config_num):
     time.sleep(10)
 
 
+def drop_caches():
+    try:
+        # 캐시 드롭을 위해 drop_caches에 3을 기록
+        subprocess.run("echo 3 | sudo tee /proc/sys/vm/drop_caches", shell=True, check=True)
+        print_time("Successfully dropped caches")
+    except subprocess.CalledProcessError as e:
+        print_time(f"Failed to drop caches: {e}")
+    time.sleep(10)
+
+
 ######################################################################################
 #                                                                                    #
 ######################################################################################
@@ -291,7 +301,9 @@ if 'search' in todo:
     index = faiss.read_index("hnsw_index")
 
     print_time("Successfully load HNSW Index")
-    time.sleep(30)
+
+    # 불필요한 캐시 메모리 드랍
+    drop_caches()
 
     # numa_balancing 옵션 설정
     autonuma_config = 2
