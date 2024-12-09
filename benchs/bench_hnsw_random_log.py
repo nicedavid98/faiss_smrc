@@ -45,8 +45,30 @@ def record_log(stop_event):
         with open("/sys/devices/system/node/node0/meminfo", "r") as meminfo_node0_file:
             meminfo_node0 = meminfo_node0_file.read()
 
+        with open("/sys/devices/system/node/node1/meminfo", "r") as meminfo_node1_file:
+            meminfo_node1 = meminfo_node1_file.read()
+
+        with open("/sys/devices/system/node/node2/meminfo", "r") as meminfo_node2_file:
+            meminfo_node2 = meminfo_node2_file.read()
+
+        with open("/sys/devices/system/node/node3/meminfo", "r") as meminfo_node3_file:
+            meminfo_node3 = meminfo_node3_file.read()
+
+        with open("/sys/devices/system/node/node4/meminfo", "r") as meminfo_node4_file:
+            meminfo_node4 = meminfo_node4_file.read()
+
+        with open("/sys/devices/system/node/node5/meminfo", "r") as meminfo_node5_file:
+            meminfo_node5 = meminfo_node5_file.read()
+
+
         logging.info(f"VMSTAT:\n{vmstat}")
         logging.info(f"NODE0 MEMINFO:\n{meminfo_node0}")
+        logging.info(f"NODE1 MEMINFO:\n{meminfo_node1}")
+        logging.info(f"NODE2 MEMINFO:\n{meminfo_node2}")
+        logging.info(f"NODE3 MEMINFO:\n{meminfo_node3}")
+        logging.info(f"NODE4 MEMINFO:\n{meminfo_node4}")
+        logging.info(f"NODE5 MEMINFO:\n{meminfo_node5}")
+
         time.sleep(10)
 
 
@@ -57,6 +79,7 @@ def set_numa_balancing(config_num):
         print("Successfully set NUMA balancing.")
     except subprocess.CalledProcessError as e:
         print(f"Failed to set NUMA balancing: {e}")
+    time.sleep(10)
 
 
 def set_demotion_enabled(config_num):
@@ -66,6 +89,7 @@ def set_demotion_enabled(config_num):
         print(f"Successfully set demotion_enabled to {config_num}.")
     except subprocess.CalledProcessError as e:
         print(f"Failed to set demotion_enabled: {e}")
+    time.sleep(10)
 
 
 def drop_caches():
@@ -74,6 +98,7 @@ def drop_caches():
         print_time("Successfully dropped caches")
     except subprocess.CalledProcessError as e:
         print_time(f"Failed to drop caches: {e}")
+    time.sleep(10)
 
 
 k = int(sys.argv[1])
@@ -86,6 +111,7 @@ ds.basedir = '/home/smrc/nicedavid98/faiss_dataset/bigann/'
 
 xt = ds.get_train()
 d = xt.shape[1]
+
 
 def generate_random_queries(dataset, num_queries):
     indices = random.sample(range(dataset.shape[0]), num_queries)
@@ -134,7 +160,7 @@ if 'search' in sys.argv:
 
     # efsearch 파라미터 설정
     index.hnsw.efSearch = ef_search
-    print_time(f"efSearch parameter set to {ef_search}")
+    print_time(f"efSearch parameter set to {ef_search}, Searching start.")
 
     end_time = time.time() + 3600
     total_queries = 0
