@@ -169,7 +169,10 @@ if 'search' in sys.argv:
     print_time(f"efSearch parameter set to {ef_search}, Searching start.")
 
     total_queries = 0
-    for partition in range(num_partitions):
+
+    # 아래 배열 순서대로 검색
+    partition_order = [0, 9, 1, 8, 2, 7, 3, 6, 4, 5]
+    for partition in partition_order:
         start_idx = partition * partition_size
         end_idx = (partition + 1) * partition_size if partition < num_partitions - 1 else num_vectors
         partition_data = data[start_idx:end_idx]
@@ -177,14 +180,14 @@ if 'search' in sys.argv:
         print_time(f"Partition {partition + 1}/{num_partitions}: Vectors {start_idx} to {end_idx}")
 
         partition_start_time = time.time()
-        while time.time() - partition_start_time < 20 * 60:  # 20 minutes
+        while time.time() - partition_start_time < 20 * 60:  # 20분
             query_vectors = generate_random_queries(partition_data, 10000)
             total_queries += perform_search(index, query_vectors, k)
 
-        # 파티션 작업 완료 후 메모리 해제 및 캐시 삭제
         del partition_data
         gc.collect()
         drop_caches()
+        
 
     # vmstat 로그 기록 스레드 종료
     stop_event.set()
